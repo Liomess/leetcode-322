@@ -1,0 +1,25 @@
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        def f(self,amount,i,coins):
+            if amount<=0:
+                return 0
+            if i==0:
+                if amount%coins[i]==0:
+                    return amount//coins[i]
+                else:
+                    return 2**32
+            
+            take=2**32
+            if coins[i]<=amount:
+                take=1+f(self,amount-coins[i],i,coins)
+            not_take=f(self,amount,i-1,coins)
+            return min(take,not_take)
+
+
+        
+        size=len(coins)
+        val=f(self,amount,size-1,coins)
+        if val>=2**32:
+            return -1
+        else:
+            return val
