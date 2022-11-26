@@ -1,0 +1,30 @@
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        def f(self,amount,i,coins,dp):
+            if amount<=0:
+                dp[amount][i]=0
+                return dp[amount][i]
+            if i==0:
+                if amount%coins[i]==0:
+                    dp[amount][i]=amount//coins[i]
+                    return dp[amount][i]
+                else:
+                    dp[amount][i]=2**32
+                    return dp[amount][i]
+            if dp[amount][i]!=-1:
+                return dp[amount][i]
+            take=2**32
+            if coins[i]<=amount:
+                take=1+f(self,amount-coins[i],i,coins,dp)
+            not_take=f(self,amount,i-1,coins,dp)
+            dp[amount][i]=min(take,not_take)
+            return dp[amount][i]
+
+        size=len(coins)
+        dp=[[-1 for i in range(size)] for j in range(amount+1)]
+        
+        val=f(self,amount,size-1,coins,dp)
+        if val>=2**32:
+            return -1
+        else:
+            return val
